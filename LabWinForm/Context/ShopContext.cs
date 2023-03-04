@@ -11,15 +11,22 @@ namespace LabWinForm.Context
 {
     class ShopContext
     {
-        private string connection;
+        private static string connection;
         public ShopContext(string connectionStr) {
             connection = connectionStr;
-            
         }
 
         public List<Shop> GetShop()
         {
             return null;
+        }
+
+        public static string GetConnection()
+        {
+            if (connection != null)
+                return connection;
+            else
+                return "Nothing";
         }
 
         public List<Shop> GetAllShop()
@@ -48,6 +55,40 @@ namespace LabWinForm.Context
                 conn.Close();
             }
             return listAuthor;
+        }
+        public void ShopInsert(Shop shop)
+        {
+            using (SqlConnection conn = new SqlConnection(connection))
+            {
+                string proc = "[dbo].[ShopInsert]";
+                SqlCommand sqlCommand = new SqlCommand(proc, conn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                var par1 = new SqlParameter("@name", shop.Name);
+                var par2 = new SqlParameter("@price", shop.price);
+                
+
+                conn.Open();
+                sqlCommand.Parameters.Add(par1);
+                sqlCommand.Parameters.Add(par2);
+                sqlCommand.ExecuteReader();
+                conn.Close();
+            }
+        }
+        public void ShopDelete(Shop shop)
+        {
+            using (SqlConnection conn = new SqlConnection(connection))
+            {
+                string proc = "[dbo].[ShopDelete]";
+                SqlCommand sqlCommand = new SqlCommand(proc, conn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                var par1 = new SqlParameter("@name", shop.Name);
+
+
+                conn.Open();
+                sqlCommand.Parameters.Add(par1);
+                sqlCommand.ExecuteReader();
+                conn.Close();
+            }
         }
     }
 }

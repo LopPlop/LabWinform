@@ -1,5 +1,6 @@
 using LabWinForm.Context;
 using LabWinForm.Model;
+using LabWinForm.UI;
 
 namespace LabWinForm
 {
@@ -24,6 +25,7 @@ namespace LabWinForm
         {
             button4.Enabled= true;
             button5.Enabled = true;
+            button6.Enabled = true;
             connectionStr = $@"Server={textBox1.Text}; Database={textBox2.Text}; Integrated Security=true; Encrypt=false;";
             shop = new ShopContext(connectionStr);
 
@@ -48,14 +50,21 @@ namespace LabWinForm
             label1.ForeColor = Color.Red;
             button4.Enabled = false;
             button5.Enabled = false;
+            button6.Enabled= false;
             label1.Text = "Connection closed";
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             shopList = shop.GetAllShop();
-            for(int i = 0; i < shopList.Count; i++)
-                richTextBox1.AppendText("id = " + shopList[i].Id.ToString() + "; " + "Name = " + shopList[i].Name.ToString() + "; " + "price = " + shopList[i].price.ToString() + "; " + "\n");
+            dataGridView1.Visible = true;
+            dataGridView1.DataSource = shopList;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            FormDbHandler formDbHandler = new FormDbHandler();
+            formDbHandler.ShowDialog();
         }
     }
 }
