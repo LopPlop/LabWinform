@@ -31,6 +31,7 @@ namespace LabWinForm.UI
             if(int.TryParse(textBox2.Text, out price))
             {
                 shopContext.ShopInsert(new Model.Shop() { Name = textBox1.Text, price = int.Parse(textBox2.Text) });
+                errorProvider1.SetError(textBox2, null);
                 MessageBox.Show(
                     "Успешно сохранено",
                     "Сообщение",
@@ -38,6 +39,7 @@ namespace LabWinForm.UI
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1,
                     MessageBoxOptions.DefaultDesktopOnly);
+                
             }
             else
                 errorProvider1.SetError(textBox2, "Введите число!");
@@ -46,6 +48,7 @@ namespace LabWinForm.UI
         private void button2_Click(object sender, EventArgs e)
         {
             shopContext.ShopDelete(new Model.Shop() { Name = textBox1.Text});
+            errorProvider1.SetError(textBox2, null);
             MessageBox.Show(
                     "Успешно удалено",
                     "Сообщение",
@@ -53,6 +56,7 @@ namespace LabWinForm.UI
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1,
                     MessageBoxOptions.DefaultDesktopOnly);
+            
         }
     }
 }
